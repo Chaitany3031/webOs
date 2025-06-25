@@ -1,72 +1,80 @@
-// function openApp(appName) {
-//   alert(`${appName} clicked!`);
-// }
-
-function openApp(appName) {
-  const appWindow = document.createElement('div');
-  appWindow.className = 'window-app';
-
-  // Random position
-  appWindow.style.top = `${50 + Math.random() * 200}px`;
-  appWindow.style.left = `${50 + Math.random() * 200}px`;
-
-  appWindow.innerHTML = `
-    <div class="window-header">
-      <span>${appName}</span>
-      <button onclick="this.closest('.window-app').remove()" style="background:none;color:white;border:none;cursor:pointer;">✕</button>
-    </div>
-    <div class="window-content">
-      <p>${appName} content goes here...</p>
-    </div>
-  `;
-
-  document.body.appendChild(appWindow);
-  makeDraggable(appWindow);
-}
-
-// Drag logic
-function makeDraggable(element) {
-  const header = element.querySelector('.window-header');
-  let isDragging = false;
-  let offsetX, offsetY;
-
-  header.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offsetX = e.clientX - element.offsetLeft;
-    offsetY = e.clientY - element.offsetTop;
-    element.style.zIndex = ++zIndexCounter; // Bring to front
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      element.style.left = `${e.clientX - offsetX}px`;
-      element.style.top = `${e.clientY - offsetY}px`;
-    }
-  });
-
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-}
-
-let zIndexCounter = 100;
 
 
-function updateDateTime() {
+let time = document.querySelector('.time');
+
+function updateTime() {
   const now = new Date();
-  const datetimeString = now.toLocaleString('en-IN', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: true
-  });
-  document.getElementById('datetime').textContent = datetimeString;
+  
+  // Get month abbreviation
+  const month = now.toLocaleString('default', { month: 'short' });
+  
+  // Get day, hours and minutes
+  const day = now.getDate();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  
+  // Format: Jun25 20:23
+  time.textContent = `${month}${day} ${hours}:${minutes}`;
 }
 
-// Initial call and update every second
-updateDateTime();
-setInterval(updateDateTime, 1000);
+// Update immediately and then every 60 seconds
+updateTime();
+setInterval(updateTime, 60000);
+
+
+const clock = document.getElementById('clock-trigger');
+const calendarCard = document.getElementById('calendar-card');
+
+// Show/hide on click
+clock.addEventListener('click', (e) => {
+  e.stopPropagation(); // prevent bubbling to window
+  calendarCard.classList.toggle('hidden');
+});
+
+// Close if clicked anywhere else
+window.addEventListener('click', () => {
+  calendarCard.classList.add('hidden');
+});
+
+// Prevent closing when clicking inside the calendar card
+calendarCard.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+
+const settingsBtn = document.getElementById('settings-trigger');
+const settingsCard = document.getElementById('settings-card');
+
+settingsBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  settingsCard.classList.toggle('hidden');
+});
+
+settingsCard.addEventListener('click', (e) => e.stopPropagation());
+
+window.addEventListener('click', () => {
+  settingsCard.classList.add('hidden');
+});
+
+
+// Calendar UI template string
+const calendarTemplate = `
+  <div class="calendar-header">
+    <h3>Wednesday</h3>
+    <p>June 25, 2025</p>
+  </div>
+  <div class="calendar-grid">
+    <div class="weekdays">
+      <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+    </div>
+    <div class="days">
+      ${Array.from({length: 30}, (_, i) => `
+        <span class="${i + 1 === 25 ? 'active-day' : ''}">${i + 1}</span>
+      `).join('')}
+    </div>
+  </div>
+  
+`;
+
+// Inject content
+calendarCard.innerHTML = calendarTemplate;

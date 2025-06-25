@@ -7,23 +7,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="window">
-      <div class="display">
-        <div class="desktop-icons">
-          <div class="icon" onclick="openApp('Notepad')">
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/2609/2609282.png"
-              alt="Notepad"
-            />
-            <p>Notepad</p>
-          </div>
-          <!-- Add more icons here -->
-          
-
-        </div>
-      </div>
+    <div class="main">
       <div class="panel">
-        <div id="datetime"></div>
+        <div class="alignment">
+          <div class="gap"></div>
+          <div class="time" id="clock-trigger">time</div>
+         
+
+          <div class="settings" id="settings-trigger">
+            <div id="settings-card" class="settings-card hidden"></div>
+          </div>
+        </div>
+
+        <!-- Calendar Popup -->
+        <div id="calendar-card" class="calendar-card hidden">
+          <!-- Add more UI later -->
+        </div>
+
+        <div class="display">
+          <div class="icons">
+            <div id="icon1" class="icon"></div>
+            <div id="icon2" class="icon"></div>
+          </div>
+        </div>
       </div>
     </div>
     <script src="script.js"></script>
