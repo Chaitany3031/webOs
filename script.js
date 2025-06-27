@@ -52,6 +52,33 @@ window.addEventListener("click", () => {
   settingsCard.classList.add("hidden");
 });
 
+const brightnessSlider = document.getElementById("brightness-slider");
+
+brightnessSlider.addEventListener("input", () => {
+  const value = brightnessSlider.value;
+  document.body.style.filter = `brightness(${value}%)`;
+});
+
+const changeWallpaperBtn = document.getElementById("change-wallpaper");
+
+const wallpapers = [
+  "https://wallpapercave.com/wp/wp12324899.jpg",
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=80",
+  "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=1920&q=80",
+  "https://images.unsplash.com/photo-1610878180933-cd98b1eaa3f0?w=1920&q=80"
+];
+
+let currentWallpaper = 0;
+
+changeWallpaperBtn.addEventListener("click", () => {
+  currentWallpaper = (currentWallpaper + 1) % wallpapers.length;
+  document.body.style.backgroundImage = `url('${wallpapers[currentWallpaper]}')`;
+  document.body.style.backgroundSize = "cover";
+  document.body.style.backgroundPosition = "center";
+  document.body.style.backgroundRepeat = "no-repeat";
+});
+
+
 function renderCalendar() {
   const now = new Date();
 

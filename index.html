@@ -6,7 +6,6 @@
     <title>WebOS</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
-
   </head>
   <body>
     <div class="main">
@@ -14,10 +13,19 @@
         <div class="alignment">
           <div class="gap"></div>
           <div class="time" id="clock-trigger">time</div>
-         
 
           <div class="settings" id="settings-trigger">
-            <div id="settings-card" class="settings-card hidden"></div>
+            <div id="settings-card" class="settings-card hidden">
+              <label for="brightness-slider">💡 Brightness</label>
+              <input
+                type="range"
+                id="brightness-slider"
+                min="50"
+                max="150"
+                value="100"
+              />
+              <button id="change-wallpaper">🖼️ Change Wallpaper</button>
+            </div>
           </div>
         </div>
 
